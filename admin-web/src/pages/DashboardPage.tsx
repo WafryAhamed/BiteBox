@@ -35,31 +35,26 @@ export function DashboardPage() {
     {
       label: "Today's Orders",
       value: stats?.today_orders ?? 0,
-      icon: '🛍️',
       color: 'var(--color-primary-red)',
     },
     {
       label: "Today's Revenue",
       value: `Rs. ${(stats?.today_revenue ?? 0).toLocaleString()}`,
-      icon: '💵',
       color: 'var(--color-success)',
     },
     {
       label: 'Pending Orders',
       value: stats?.pending_orders ?? 0,
-      icon: '⏳',
       color: 'var(--color-warning)',
     },
     {
       label: 'Preparing Orders',
       value: stats?.preparing_orders ?? 0,
-      icon: '🍳',
       color: 'var(--color-primary-red)',
     },
     {
       label: 'Completed Orders',
       value: stats?.completed_orders ?? 0,
-      icon: '✅',
       color: 'var(--color-success)',
     },
   ];
@@ -94,12 +89,9 @@ export function DashboardPage() {
               key={stat.label}
               className="bg-[var(--color-surface)] rounded-xl p-5 border border-[var(--color-border)] hover:border-[var(--color-primary-red)]/30 transition-all"
             >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-medium text-[var(--color-text-secondary)]">
-                  {stat.label}
-                </span>
-                <span className="text-xl">{stat.icon}</span>
-              </div>
+              <p className="text-xs font-medium text-[var(--color-text-secondary)] mb-3">
+                {stat.label}
+              </p>
               <p className="text-2xl font-bold" style={{ color: stat.color }}>
                 {stat.value}
               </p>

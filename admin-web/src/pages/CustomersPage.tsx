@@ -123,7 +123,6 @@ export function CustomersPage() {
               ) : customers.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-16 text-center text-[var(--color-text-muted)]">
-                    <div className="text-3xl mb-2">👤</div>
                     <p className="font-medium">No customers found</p>
                     <p className="text-sm mt-1">Try adjusting your search query.</p>
                   </td>

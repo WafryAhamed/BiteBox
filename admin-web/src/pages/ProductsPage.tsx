@@ -215,8 +215,8 @@ export function ProductsPage() {
                       {product.image ? (
                         <img src={product.image} alt={product.name} className="w-10 h-10 rounded-lg object-cover bg-[var(--color-surface-secondary)]" />
                       ) : (
-                        <div className="w-10 h-10 rounded-lg bg-[var(--color-surface-secondary)] flex items-center justify-center text-xs text-[var(--color-text-muted)]">
-                          🍔
+                        <div className="w-10 h-10 rounded-lg bg-[var(--color-surface-secondary)] flex items-center justify-center text-xs font-semibold text-[var(--color-text-muted)]">
+                          P
                         </div>
                       )}
                       <div>

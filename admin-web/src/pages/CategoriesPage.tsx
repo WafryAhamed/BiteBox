@@ -135,8 +135,8 @@ export function CategoriesPage() {
                       {category.image ? (
                         <img src={category.image} alt={category.name} className="w-10 h-10 rounded-lg object-cover bg-[var(--color-surface-secondary)]" />
                       ) : (
-                        <div className="w-10 h-10 rounded-lg bg-[var(--color-surface-secondary)] flex items-center justify-center text-xs text-[var(--color-text-muted)]">
-                          📁
+                        <div className="w-10 h-10 rounded-lg bg-[var(--color-surface-secondary)] flex items-center justify-center text-xs font-semibold text-[var(--color-text-muted)]">
+                          C
                         </div>
                       )}
                       <span className="font-semibold text-sm">{category.name}</span>

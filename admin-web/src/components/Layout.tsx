@@ -3,11 +3,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const navItems = [
-  { path: '/dashboard', label: 'Dashboard', icon: '📊' },
-  { path: '/orders', label: 'Orders', icon: '🧾' },
-  { path: '/categories', label: 'Categories', icon: '📁' },
-  { path: '/products', label: 'Products', icon: '🍔' },
-  { path: '/customers', label: 'Customers', icon: '👥' },
+  { path: '/dashboard', label: 'Dashboard' },
+  { path: '/orders', label: 'Orders' },
+  { path: '/categories', label: 'Categories' },
+  { path: '/products', label: 'Products' },
+  { path: '/customers', label: 'Customers' },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -49,7 +49,6 @@ export function Layout({ children }: { children: ReactNode }) {
                 }`
               }
             >
-              <span>{item.icon}</span>
               {item.label}
             </NavLink>
           ))}
@@ -69,7 +68,7 @@ export function Layout({ children }: { children: ReactNode }) {
             onClick={() => setShowLogoutModal(true)}
             className="w-full px-4 py-2 text-sm text-[var(--color-primary-red)] hover:bg-[var(--color-surface-secondary)] rounded-lg transition-colors font-medium cursor-pointer flex items-center justify-center gap-2"
           >
-            <span>🚪</span> Log out
+            Log out
           </button>
         </div>
       </aside>
