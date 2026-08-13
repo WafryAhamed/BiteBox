@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+use Illuminate\Validation\Rules\Password;
+
 class RegisterRequest extends FormRequest
 {
     public function authorize(): bool
@@ -18,7 +20,16 @@ class RegisterRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => [
+                'required',
+                'string',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+                'confirmed',
+            ],
             'phone' => ['nullable', 'string', 'max:20'],
         ];
     }
@@ -31,7 +42,6 @@ class RegisterRequest extends FormRequest
             'email.email' => 'Please enter a valid email address.',
             'email.unique' => 'This email is already registered. Try logging in instead.',
             'password.required' => 'Please enter your password.',
-            'password.min' => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Passwords do not match.',
         ];
     }

@@ -9,21 +9,26 @@ use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
+    public function __construct(
+        private readonly OtpService $otpService
+    ) {}
+
     public function register(array $data): array
     {
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password'],
+            'password' => Hash::make($data['password']),
             'phone' => $data['phone'] ?? null,
             'role' => UserRole::CUSTOMER,
+            'email_verified_at' => null,
         ]);
 
-        $token = $user->createToken('auth-token')->plainTextToken;
+        $this->otpService->generateAndSendOtp($user->email, $user->name);
 
         return [
             'user' => $user,
-            'token' => $token,
+            'requires_verification' => true,
         ];
     }
 
@@ -37,6 +42,19 @@ class AuthService
             ]);
         }
 
+        if (is_null($user->email_verified_at)) {
+            // Auto-send fresh OTP when unverified user attempts to log in
+            try {
+                $this->otpService->generateAndSendOtp($user->email, $user->name);
+            } catch (\Throwable) {
+                // Ignore rate limit exception if code was sent recently
+            }
+
+            throw ValidationException::withMessages([
+                'email' => ['Please verify your email before logging in.'],
+            ]);
+        }
+
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return [
@@ -45,11 +63,37 @@ class AuthService
         ];
     }
 
+    public function verifyOtp(string $email, string $otp): array
+    {
+        $user = $this->otpService->verifyOtp($email, $otp);
+
+        $token = $user->createToken('auth-token')->plainTextToken;
+
+        return [
+            'user' => $user,
+            'token' => $token,
+        ];
+    }
+
+    public function resendOtp(string $email): bool
+    {
+        $user = User::where('email', $email)->first();
+        if (! $user) {
+            throw ValidationException::withMessages([
+                'email' => ['User account not found with this email.'],
+            ]);
+        }
+
+        return $this->otpService->generateAndSendOtp($user->email, $user->name);
+    }
+
     public function logout(User $user): void
     {
         $token = $user->currentAccessToken();
         if ($token && method_exists($token, 'delete')) {
             $token->delete();
+        } else {
+            $user->tokens()->delete();
         }
     }
 

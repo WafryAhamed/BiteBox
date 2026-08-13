@@ -10,6 +10,8 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\VerifyOtpRequest;
+
 class AuthController extends Controller
 {
     use ApiResponse;
@@ -24,8 +26,8 @@ class AuthController extends Controller
 
         return $this->created([
             'user' => new UserResource($result['user']),
-            'token' => $result['token'],
-        ], 'Registration successful');
+            'requires_verification' => true,
+        ], 'Account created. Verification code sent to your email.');
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -36,6 +38,30 @@ class AuthController extends Controller
             'user' => new UserResource($result['user']),
             'token' => $result['token'],
         ], 'Login successful');
+    }
+
+    public function verifyOtp(VerifyOtpRequest $request): JsonResponse
+    {
+        $result = $this->authService->verifyOtp(
+            $request->validated('email'),
+            $request->validated('otp')
+        );
+
+        return $this->success([
+            'user' => new UserResource($result['user']),
+            'token' => $result['token'],
+        ], 'Account verified successfully!');
+    }
+
+    public function resendOtp(Request $request): JsonResponse
+    {
+        $request->validate([
+            'email' => ['required', 'string', 'email'],
+        ]);
+
+        $this->authService->resendOtp($request->input('email'));
+
+        return $this->success(null, 'Verification code sent to your email.');
     }
 
     public function logout(Request $request): JsonResponse
