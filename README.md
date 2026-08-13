@@ -206,3 +206,13 @@ admin-web/src/
 ├── services/           # Axios API client
 └── types/              # TypeScript interfaces
 ```
+
+
+
+
+cd backend
+php artisan serve --host=0.0.0.0 --port=8000
+
+
+cd mobile
+npx expo start -c
