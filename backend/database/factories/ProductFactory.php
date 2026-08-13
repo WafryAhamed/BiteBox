@@ -14,7 +14,7 @@ class ProductFactory extends Factory
             'name' => fake()->words(3, true),
             'description' => fake()->paragraph(),
             'image' => 'https://placehold.co/400x300/111111/FFFFFF?text=Food',
-            'price' => fake()->randomFloat(2, 2, 25),
+            'price' => fake()->randomFloat(2, 350, 2500),
             'is_available' => true,
             'preparation_time' => fake()->numberBetween(5, 30),
         ];

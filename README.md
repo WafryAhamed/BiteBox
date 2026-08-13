@@ -66,8 +66,11 @@ php artisan serve                 # http://127.0.0.1:8000
 ```
 
 The seeder creates:
-- **Admin** — `admin@bitebox.com` / `password`
-- Sample categories, products and add-ons
+- **Admin 1** — `nuwan.perera@bitebox.lk` / `password`
+- **Admin 2** — `sachini.fernando@bitebox.lk` / `password`
+- **Customer 1** — `kasun.perera@bitebox.lk` / `password`
+- **Customer 2** — `hiruni.fernando@bitebox.lk` / `password`
+- Sample categories, products and add-ons with Sri Lankan pricing (LKR)
 
 ### 2. Admin Dashboard
 

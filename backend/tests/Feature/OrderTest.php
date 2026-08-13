@@ -57,9 +57,9 @@ class OrderTest extends TestCase
         $this->address = Address::create([
             'user_id' => $this->customer->id,
             'label' => 'Home',
-            'full_name' => 'John Doe',
-            'phone' => '0771234567',
-            'address_line' => '123 Main St',
+            'full_name' => 'Kasun Perera',
+            'phone' => '+94 77 245 6813',
+            'address_line' => 'No. 18, Duplication Road',
             'city' => 'Colombo',
             'is_default' => true,
         ]);

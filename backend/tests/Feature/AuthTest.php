@@ -14,11 +14,11 @@ class AuthTest extends TestCase
     public function test_customer_can_register(): void
     {
         $response = $this->postJson('/api/v1/auth/register', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Dilshan Jayasinghe',
+            'email' => 'dilshan.jayasinghe@bitebox.lk',
             'password' => 'Pass@1234',
             'password_confirmation' => 'Pass@1234',
-            'phone' => '+1234567890',
+            'phone' => '+94 76 318 5294',
         ]);
 
         $response->assertStatus(201)
@@ -42,7 +42,7 @@ class AuthTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'test@example.com',
+            'email' => 'dilshan.jayasinghe@bitebox.lk',
             'role' => UserRole::CUSTOMER->value,
             'email_verified_at' => null,
         ]);
@@ -51,8 +51,8 @@ class AuthTest extends TestCase
     public function test_registration_rejects_weak_password(): void
     {
         $response = $this->postJson('/api/v1/auth/register', [
-            'name' => 'Test User',
-            'email' => 'weak@example.com',
+            'name' => 'Dilshan Jayasinghe',
+            'email' => 'weak.test@bitebox.lk',
             'password' => '12345',
             'password_confirmation' => '12345',
         ]);
@@ -72,11 +72,11 @@ class AuthTest extends TestCase
 
     public function test_registration_rejects_duplicate_email(): void
     {
-        User::factory()->create(['email' => 'taken@example.com']);
+        User::factory()->create(['email' => 'taken.test@bitebox.lk']);
 
         $response = $this->postJson('/api/v1/auth/register', [
-            'name' => 'Test User',
-            'email' => 'taken@example.com',
+            'name' => 'Dilshan Jayasinghe',
+            'email' => 'taken.test@bitebox.lk',
             'password' => 'Pass@1234',
             'password_confirmation' => 'Pass@1234',
         ]);
@@ -87,13 +87,13 @@ class AuthTest extends TestCase
     public function test_unverified_user_cannot_login(): void
     {
         User::factory()->create([
-            'email' => 'unverified@example.com',
+            'email' => 'unverified.test@bitebox.lk',
             'password' => bcrypt('Pass@1234'),
             'email_verified_at' => null,
         ]);
 
         $response = $this->postJson('/api/v1/auth/login', [
-            'email' => 'unverified@example.com',
+            'email' => 'unverified.test@bitebox.lk',
             'password' => 'Pass@1234',
         ]);
 
@@ -106,13 +106,13 @@ class AuthTest extends TestCase
     public function test_verified_user_can_login(): void
     {
         User::factory()->create([
-            'email' => 'verified@example.com',
+            'email' => 'verified.test@bitebox.lk',
             'password' => bcrypt('Pass@1234'),
             'email_verified_at' => now(),
         ]);
 
         $response = $this->postJson('/api/v1/auth/login', [
-            'email' => 'verified@example.com',
+            'email' => 'verified.test@bitebox.lk',
             'password' => 'Pass@1234',
         ]);
 
@@ -126,13 +126,13 @@ class AuthTest extends TestCase
     public function test_login_fails_with_wrong_credentials(): void
     {
         User::factory()->create([
-            'email' => 'test@example.com',
+            'email' => 'dilshan.jayasinghe@bitebox.lk',
             'password' => bcrypt('Pass@1234'),
             'email_verified_at' => now(),
         ]);
 
         $response = $this->postJson('/api/v1/auth/login', [
-            'email' => 'test@example.com',
+            'email' => 'dilshan.jayasinghe@bitebox.lk',
             'password' => 'wrongpassword',
         ]);
 
@@ -177,11 +177,11 @@ class AuthTest extends TestCase
     {
         // 1. Register with strong password
         $regResponse = $this->postJson('/api/v1/auth/register', [
-            'name' => 'John Verification',
-            'email' => 'john.verify@example.com',
+            'name' => 'Dilshan Jayasinghe',
+            'email' => 'dilshan.verify@bitebox.lk',
             'password' => 'SecurePass@2026',
             'password_confirmation' => 'SecurePass@2026',
-            'phone' => '+1987654321',
+            'phone' => '+94 77 987 6543',
         ]);
 
         $regResponse->assertStatus(201)
@@ -194,7 +194,7 @@ class AuthTest extends TestCase
 
         // 2. Unverified login attempt should fail
         $loginFailResponse = $this->postJson('/api/v1/auth/login', [
-            'email' => 'john.verify@example.com',
+            'email' => 'dilshan.verify@bitebox.lk',
             'password' => 'SecurePass@2026',
         ]);
 
@@ -206,7 +206,7 @@ class AuthTest extends TestCase
 
         // 3. Incorrect OTP verification attempt should fail
         $badOtpResponse = $this->postJson('/api/v1/auth/verify-otp', [
-            'email' => 'john.verify@example.com',
+            'email' => 'dilshan.verify@bitebox.lk',
             'otp' => '000000',
         ]);
 
@@ -214,21 +214,21 @@ class AuthTest extends TestCase
 
         // 4. Retrieve stored OTP record from database
         $otpRecord = \Illuminate\Support\Facades\DB::table('otp_verifications')
-            ->where('email', 'john.verify@example.com')
+            ->where('email', 'dilshan.verify@bitebox.lk')
             ->first();
 
         $this->assertNotNull($otpRecord);
 
         // 5. Verify using a known code by seeding a fresh code
         \Illuminate\Support\Facades\DB::table('otp_verifications')
-            ->where('email', 'john.verify@example.com')
+            ->where('email', 'dilshan.verify@bitebox.lk')
             ->update([
                 'otp_hash' => \Illuminate\Support\Facades\Hash::make('654321'),
                 'expires_at' => now()->addMinutes(10),
             ]);
 
         $verifySuccessResponse = $this->postJson('/api/v1/auth/verify-otp', [
-            'email' => 'john.verify@example.com',
+            'email' => 'dilshan.verify@bitebox.lk',
             'otp' => '654321',
         ]);
 
@@ -247,14 +247,14 @@ class AuthTest extends TestCase
 
         // 6. User should now be verified in DB
         $this->assertDatabaseHas('users', [
-            'email' => 'john.verify@example.com',
+            'email' => 'dilshan.verify@bitebox.lk',
         ]);
-        $user = User::where('email', 'john.verify@example.com')->first();
+        $user = User::where('email', 'dilshan.verify@bitebox.lk')->first();
         $this->assertNotNull($user->email_verified_at);
 
         // 7. Login should now succeed
         $loginSuccessResponse = $this->postJson('/api/v1/auth/login', [
-            'email' => 'john.verify@example.com',
+            'email' => 'dilshan.verify@bitebox.lk',
             'password' => 'SecurePass@2026',
         ]);
 
@@ -271,7 +271,7 @@ class AuthTest extends TestCase
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'email' => 'john.verify@example.com',
+                    'email' => 'dilshan.verify@bitebox.lk',
                 ],
             ]);
 

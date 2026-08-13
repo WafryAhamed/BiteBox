@@ -26,10 +26,10 @@ class AddressTest extends TestCase
         $response = $this->actingAs($this->customer)
             ->postJson('/api/v1/addresses', [
                 'label' => 'Home',
-                'full_name' => 'John Doe',
-                'phone' => '0771234567',
-                'address_line' => '123 Main Street',
-                'city' => 'Colombo',
+                'full_name' => 'Kasun Perera',
+                'phone' => '+94 77 245 6813',
+                'address_line' => 'No. 18, Duplication Road',
+                'city' => 'Colombo 04',
                 'notes' => 'Ring bell twice',
             ]);
 
@@ -38,14 +38,14 @@ class AddressTest extends TestCase
                 'success' => true,
                 'data' => [
                     'label' => 'Home',
-                    'full_name' => 'John Doe',
+                    'full_name' => 'Kasun Perera',
                     'is_default' => true, // First address becomes default automatically
                 ],
             ]);
 
         $this->assertDatabaseHas('addresses', [
             'user_id' => $this->customer->id,
-            'full_name' => 'John Doe',
+            'full_name' => 'Kasun Perera',
         ]);
     }
 
@@ -54,20 +54,20 @@ class AddressTest extends TestCase
         Address::create([
             'user_id' => $this->customer->id,
             'label' => 'Home',
-            'full_name' => 'John Doe',
-            'phone' => '0771234567',
-            'address_line' => '123 Main Street',
-            'city' => 'Colombo',
+            'full_name' => 'Kasun Perera',
+            'phone' => '+94 77 245 6813',
+            'address_line' => 'No. 18, Duplication Road',
+            'city' => 'Colombo 04',
             'is_default' => true,
         ]);
 
         Address::create([
             'user_id' => $this->otherCustomer->id,
             'label' => 'Work',
-            'full_name' => 'Jane Smith',
-            'phone' => '0777654321',
-            'address_line' => '456 Business Road',
-            'city' => 'Colombo',
+            'full_name' => 'Hiruni Fernando',
+            'phone' => '+94 71 638 4527',
+            'address_line' => 'No. 24, Lewis Place',
+            'city' => 'Negombo',
             'is_default' => true,
         ]);
 
@@ -76,7 +76,7 @@ class AddressTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertCount(1, $response->json('data'));
-        $this->assertEquals('John Doe', $response->json('data.0.full_name'));
+        $this->assertEquals('Kasun Perera', $response->json('data.0.full_name'));
     }
 
     public function test_customer_can_update_address(): void
@@ -84,23 +84,23 @@ class AddressTest extends TestCase
         $address = Address::create([
             'user_id' => $this->customer->id,
             'label' => 'Home',
-            'full_name' => 'John Doe',
-            'phone' => '0771234567',
-            'address_line' => '123 Main Street',
-            'city' => 'Colombo',
+            'full_name' => 'Kasun Perera',
+            'phone' => '+94 77 245 6813',
+            'address_line' => 'No. 18, Duplication Road',
+            'city' => 'Colombo 04',
             'is_default' => true,
         ]);
 
         $response = $this->actingAs($this->customer)
             ->putJson("/api/v1/addresses/{$address->id}", [
-                'full_name' => 'John Updated',
-                'phone' => '0771234567',
-                'address_line' => '123 Main Street',
+                'full_name' => 'Kasun Perera',
+                'phone' => '+94 77 245 6813',
+                'address_line' => 'No. 18, Duplication Road',
                 'city' => 'Kandy',
             ]);
 
         $response->assertStatus(200)
-            ->assertJson(['data' => ['full_name' => 'John Updated', 'city' => 'Kandy']]);
+            ->assertJson(['data' => ['full_name' => 'Kasun Perera', 'city' => 'Kandy']]);
     }
 
     public function test_customer_cannot_update_other_customer_address(): void
@@ -108,19 +108,19 @@ class AddressTest extends TestCase
         $address = Address::create([
             'user_id' => $this->otherCustomer->id,
             'label' => 'Work',
-            'full_name' => 'Jane Smith',
-            'phone' => '0777654321',
-            'address_line' => '456 Business Road',
-            'city' => 'Colombo',
+            'full_name' => 'Hiruni Fernando',
+            'phone' => '+94 71 638 4527',
+            'address_line' => 'No. 24, Lewis Place',
+            'city' => 'Negombo',
             'is_default' => true,
         ]);
 
         $response = $this->actingAs($this->customer)
             ->putJson("/api/v1/addresses/{$address->id}", [
                 'full_name' => 'Hack Attempt',
-                'phone' => '0771234567',
-                'address_line' => '123 Main Street',
-                'city' => 'Colombo',
+                'phone' => '+94 77 245 6813',
+                'address_line' => 'No. 18, Duplication Road',
+                'city' => 'Colombo 04',
             ]);
 
         $response->assertStatus(403);
@@ -131,10 +131,10 @@ class AddressTest extends TestCase
         $address = Address::create([
             'user_id' => $this->customer->id,
             'label' => 'Home',
-            'full_name' => 'John Doe',
-            'phone' => '0771234567',
-            'address_line' => '123 Main Street',
-            'city' => 'Colombo',
+            'full_name' => 'Kasun Perera',
+            'phone' => '+94 77 245 6813',
+            'address_line' => 'No. 18, Duplication Road',
+            'city' => 'Colombo 04',
             'is_default' => true,
         ]);
 

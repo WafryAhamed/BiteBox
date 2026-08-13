@@ -14,8 +14,8 @@ class CustomerManagementTest extends TestCase
     {
         $admin = User::factory()->admin()->create();
         $customer = User::factory()->create([
-            'name' => 'Customer One',
-            'email' => 'customer1@example.com',
+            'name' => 'Kasun Perera',
+            'email' => 'kasun.perera@bitebox.lk',
         ]);
 
         // Admin list customers
@@ -31,8 +31,8 @@ class CustomerManagementTest extends TestCase
             ->assertJson([
                 'data' => [
                     'customer' => [
-                        'name' => 'Customer One',
-                        'email' => 'customer1@example.com',
+                        'name' => 'Kasun Perera',
+                        'email' => 'kasun.perera@bitebox.lk',
                     ],
                 ],
             ]);

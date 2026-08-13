@@ -80,7 +80,7 @@ export function LoginPage() {
                 setFieldErrors((prev) => ({ ...prev, email: undefined }));
                 if (error) setError('');
               }}
-              placeholder="admin@bitebox.com"
+              placeholder="nuwan.perera@bitebox.lk"
               className={`w-full px-4 py-3 bg-[var(--color-surface-secondary)] border rounded-xl text-white placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-primary-red)] transition-colors ${
                 fieldErrors.email ? 'border-[var(--color-primary-red)]' : 'border-[var(--color-border)]'
               }`}

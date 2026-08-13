@@ -231,7 +231,7 @@ export function ProductsPage() {
                     {product.category?.name || '-'}
                   </td>
                   <td className="p-4 text-sm text-[var(--color-primary-red)] font-semibold">
-                    ${product.price.toFixed(2)}
+                    Rs. {Number(product.price).toLocaleString()}
                   </td>
                   <td className="p-4 text-sm text-[var(--color-text-secondary)]">
                     {product.preparation_time} min
