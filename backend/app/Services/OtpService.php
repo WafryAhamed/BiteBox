@@ -15,15 +15,16 @@ class OtpService
 
     public function generateAndSendOtp(string $email, string $recipientName = 'Customer'): bool
     {
-        // Rate-limit resend check: ensure at least 15 seconds between resend requests
+        // Rate-limit resend check: ensure at least 45 seconds between resend requests
         $recent = DB::table('otp_verifications')
             ->where('email', $email)
             ->orderByDesc('created_at')
             ->first();
 
-        if ($recent && now()->diffInSeconds($recent->created_at) < 15) {
+        if ($recent && now()->diffInSeconds($recent->created_at) < 45) {
+            $remaining = 45 - now()->diffInSeconds($recent->created_at);
             throw ValidationException::withMessages([
-                'otp' => ['Please wait a few seconds before requesting a new code.'],
+                'otp' => ["Please wait {$remaining} seconds before requesting a new code."],
             ]);
         }
 
