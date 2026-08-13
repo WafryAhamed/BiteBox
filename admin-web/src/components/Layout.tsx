@@ -4,9 +4,11 @@ import type { ReactNode } from 'react';
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: '📊' },
+  { path: '/orders', label: 'Orders', icon: '🧾' },
   { path: '/categories', label: 'Categories', icon: '📁' },
   { path: '/products', label: 'Products', icon: '🍔' },
 ];
+
 
 export function Layout({ children }: { children: ReactNode }) {
   const { user, logout } = useAuth();
