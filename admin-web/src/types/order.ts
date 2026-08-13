@@ -59,11 +59,18 @@ export interface Order {
   updated_at: string;
 }
 
+export interface TopProduct {
+  name: string;
+  total_quantity: number;
+  total_revenue: number;
+}
+
 export interface DashboardStats {
   today_orders: number;
   today_revenue: number;
   pending_orders: number;
   preparing_orders: number;
   completed_orders: number;
+  top_products?: TopProduct[];
   recent_orders: Order[];
 }

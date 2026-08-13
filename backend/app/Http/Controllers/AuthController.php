@@ -52,4 +52,14 @@ class AuthController extends Controller
             'User retrieved successfully'
         );
     }
+
+    public function updateProfile(\App\Http\Requests\UpdateProfileRequest $request): JsonResponse
+    {
+        $updatedUser = $this->authService->updateProfile($request->user(), $request->validated());
+
+        return $this->success(
+            new UserResource($updatedUser),
+            'Profile updated successfully'
+        );
+    }
 }

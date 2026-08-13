@@ -170,6 +170,41 @@ export function DashboardPage() {
           )}
         </div>
       </div>
+
+      {/* Top Products */}
+      {stats?.top_products && stats.top_products.length > 0 && (
+        <div className="mt-10">
+          <h2 className="text-lg font-semibold mb-4">Top Products</h2>
+          <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] divide-y divide-[var(--color-border)]">
+            {stats.top_products.map((product, i) => {
+              const maxQty = stats.top_products![0].total_quantity;
+              const pct = maxQty > 0 ? (product.total_quantity / maxQty) * 100 : 0;
+              return (
+                <div key={product.name} className="flex items-center gap-4 px-6 py-4">
+                  <span className="w-6 text-center text-xs font-bold text-[var(--color-text-muted)]">
+                    {i + 1}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{product.name}</p>
+                    <div className="mt-1.5 h-1.5 rounded-full bg-[var(--color-surface-secondary)] overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-[var(--color-primary-red)] transition-all"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-bold">{product.total_quantity} sold</p>
+                    <p className="text-xs text-[var(--color-text-muted)]">
+                      Rs. {product.total_revenue.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

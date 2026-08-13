@@ -127,6 +127,7 @@ class OrderController extends Controller
             'pending_orders' => $stats['pending_orders'],
             'preparing_orders' => $stats['preparing_orders'],
             'completed_orders' => $stats['completed_orders'],
+            'top_products' => $stats['top_products'],
             'recent_orders' => OrderResource::collection($stats['recent_orders']),
         ], 'Dashboard stats retrieved successfully');
     }

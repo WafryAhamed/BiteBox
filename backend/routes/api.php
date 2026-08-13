@@ -3,6 +3,8 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,7 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
+        Route::put('/profile', [AuthController::class, 'updateProfile']);
     });
 });
 
@@ -45,6 +48,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Protected routes (Customer & Admin)
 Route::middleware('auth:sanctum')->group(function () {
+    // Profile & Favorites
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites/{product}/toggle', [FavoriteController::class, 'toggle']);
+
     // Addresses
     Route::apiResource('addresses', AddressController::class);
     Route::patch('/addresses/{address}/set-default', [AddressController::class, 'setDefault']);
@@ -56,5 +63,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders/{id}', [OrderController::class, 'show']);
     Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel']);
     Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus']);
+
+    // Admin Customers Management
+    Route::get('/customers', [CustomerController::class, 'index']);
+    Route::get('/customers/{id}', [CustomerController::class, 'show']);
 });
+
 

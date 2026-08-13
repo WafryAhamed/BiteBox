@@ -6,6 +6,8 @@ import { DashboardPage } from './pages/DashboardPage';
 import { CategoriesPage } from './pages/CategoriesPage';
 import { ProductsPage } from './pages/ProductsPage';
 import { OrdersPage } from './pages/OrdersPage';
+import { CustomersPage } from './pages/CustomersPage';
+import { CustomerDetailPage } from './pages/CustomerDetailPage';
 import { OrderDetailPage } from './pages/OrderDetailPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -36,6 +38,8 @@ export default function App() {
                 <Route path="/orders/:id" element={<OrderDetailPage />} />
                 <Route path="/categories" element={<CategoriesPage />} />
                 <Route path="/products" element={<ProductsPage />} />
+                <Route path="/customers" element={<CustomersPage />} />
+                <Route path="/customers/:id" element={<CustomerDetailPage />} />
               </Routes>
             </Layout>
           </ProtectedRoute>

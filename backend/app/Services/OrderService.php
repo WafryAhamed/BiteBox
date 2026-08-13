@@ -251,12 +251,25 @@ class OrderService
             ->limit(5)
             ->get();
 
+        // Top products calculation
+        $topProducts = \App\Models\OrderItem::select('product_name', \Illuminate\Support\Facades\DB::raw('SUM(quantity) as total_quantity'), \Illuminate\Support\Facades\DB::raw('SUM(subtotal) as total_revenue'))
+            ->groupBy('product_name')
+            ->orderByDesc('total_quantity')
+            ->limit(5)
+            ->get()
+            ->map(fn($item) => [
+                'name' => $item->product_name,
+                'total_quantity' => (int) $item->total_quantity,
+                'total_revenue' => (float) $item->total_revenue,
+            ]);
+
         return [
             'today_orders' => $todayCount,
             'today_revenue' => (float) $todayRevenue,
             'pending_orders' => $pendingCount,
             'preparing_orders' => $preparingCount,
             'completed_orders' => $completedCount,
+            'top_products' => $topProducts,
             'recent_orders' => $recentOrders,
         ];
     }
