@@ -25,13 +25,8 @@ export function Layout({ children }: { children: ReactNode }) {
       {/* Sidebar */}
       <aside className="w-64 bg-[var(--color-surface)] border-r border-[var(--color-border)] flex flex-col">
         <div className="p-6 border-b border-[var(--color-border)]">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[var(--color-primary-red)]" />
-            <span className="text-lg font-extrabold tracking-widest">
-              BITE<span className="text-[var(--color-primary-red)]">BOX</span>
-            </span>
-          </div>
-          <p className="text-xs text-[var(--color-text-muted)] mt-1 tracking-wider uppercase">Admin Panel</p>
+          <img src="/biteboxlogo.png" alt="BiteBox Logo" className="h-8 w-auto object-contain" />
+          <p className="text-xs text-[var(--color-text-muted)] mt-1.5 tracking-wider uppercase">Admin Panel</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">

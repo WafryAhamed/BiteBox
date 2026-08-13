@@ -33,12 +33,7 @@ export function LoginPage() {
     <div className="min-h-screen bg-[var(--color-bg)] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <span className="w-3 h-3 rounded-full bg-[var(--color-primary-red)]" />
-            <span className="text-2xl font-extrabold tracking-widest">
-              BITE<span className="text-[var(--color-primary-red)]">BOX</span>
-            </span>
-          </div>
+          <img src="/biteboxlogo.png" alt="BiteBox Logo" className="h-12 w-auto object-contain mx-auto mb-3" />
           <p className="text-sm text-[var(--color-text-muted)] tracking-wider uppercase">Admin Dashboard</p>
         </div>
 
